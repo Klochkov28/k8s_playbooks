@@ -1,0 +1,15 @@
+---
+- name: add insecure registry with cri-o
+  hosts: k8s
+  gather_facts: no
+  tasks:
+    - name: copy-file
+      copy:
+        src: nexus.conf
+        dest: /etc/containers/registries.conf.d/nexus.conf
+    - name: daemon-reload
+      ansible.builtin.systemd:
+        state: restarted
+        daemon_reload: true
+        name: crio
+
