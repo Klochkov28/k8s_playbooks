@@ -7,9 +7,14 @@
       copy:
         src: nexus.conf
         dest: /etc/containers/registries.conf.d/nexus.conf
-    - name: daemon-reload
+        notify:
+          - restart cri-o
+        become: yes
+  handlers:
+    - name: restart cri-o
       ansible.builtin.systemd:
         state: restarted
         daemon_reload: true
         name: crio
+
 
